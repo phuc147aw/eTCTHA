@@ -1,4 +1,4 @@
-﻿<!doctype html>
+﻿<! doctype html>
 <html lang="vi">
 	<head>
 		<meta charset="utf-8" />
@@ -8,14 +8,14 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 		<style>
-			:root {
+			: root {
 				--bg-1: #0b2e22;
 				--bg-2: #0f3b2a;
 				--accent-1: #79c08e;
 				--accent-2: #42a66b;
 				--text: #eaf2ed;
 				--muted: #bcd7c6;
-				--card: rgba(255,255,255,0.08);
+				--card:  rgba(255,255,255,0.08);
 				--card-border: rgba(255,255,255,0.14);
 				--shadow: 0 10px 24px rgba(0,0,0,0.35);
 			}
@@ -26,7 +26,7 @@
 				margin: 0;
 				font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
 				color: var(--text);
-				background:
+				background: 
 					radial-gradient(1200px 600px at 10% 0%, #123f2f 10%, var(--bg-1) 40%, var(--bg-2) 100%),
 					linear-gradient(180deg, rgba(121,192,142,0.08), rgba(66,166,107,0.04));
 				background-attachment: fixed;
@@ -37,7 +37,7 @@
 				content: '';
 				position: fixed;
 				inset: 0;
-				background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><g fill='none' stroke='%23ffffff' stroke-opacity='0.06'><path d='M80 20c26 26 26 66 0 92c-26-26-26-66 0-92z'/><path d='M20 80c26-26 66-26 92 0c-26 26-66 26-92 0z'/></g></svg>");
+				background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><g fill='none' stroke='%23ffffff' stroke-opacity='0.06'><path d='M80 20 Q 85 40 80 60 Q 75 40 80 20 M 80 20 Q 70 25 62 30'/></g></svg>");
 				background-size: 180px 180px;
 				opacity: 0.6;
 				pointer-events: none;
@@ -59,7 +59,7 @@
 				align-items: center;
 				gap: 16px;
 			}
-			.brand {
+			. brand {
 				font-weight: 600;
 				letter-spacing: 0.8px;
 				font-size: 20px;
@@ -67,7 +67,7 @@
 				align-items: center;
 				gap: 10px;
 			}
-			.brand-icon {
+			. brand-icon {
 				width: 26px; height: 26px;
 				display: inline-block;
 				background: conic-gradient(from 180deg at 50% 50%, var(--accent-1), var(--accent-2));
@@ -80,10 +80,10 @@
 				display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;
 				margin-bottom: 18px;
 			}
-			.intro h1 { font-size: 18px; font-weight: 500; margin: 0; color: var(--muted); }
+			. intro h1 { font-size: 18px; font-weight: 500; margin: 0; color: var(--muted); }
 
 			.add-btn {
-				display: inline-flex; align-items: center; gap: 10px;
+				display: inline-flex; align-items: center; gap:  10px;
 				background: linear-gradient(180deg, var(--accent-1), var(--accent-2));
 				color: #07341f; border: none; border-radius: 10px;
 				padding: 10px 14px; font-weight: 600; cursor: pointer;
@@ -96,7 +96,7 @@
 				display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px;
 			}
 			@media (max-width: 900px) { .grid { grid-template-columns: repeat(8, 1fr); } }
-			@media (max-width: 640px) { .grid { grid-template-columns: repeat(4, 1fr); } }
+			@media (max-width:  640px) { .grid { grid-template-columns: repeat(4, 1fr); } }
 
 			.card {
 				grid-column: span 12;
@@ -107,7 +107,7 @@
 				backdrop-filter: blur(10px);
 			}
 			@media (min-width: 640px) { .card { grid-column: span 6; } }
-			@media (min-width: 900px) { .card { grid-column: span 4; } }
+			@media (min-width:  900px) { .card { grid-column: span 4; } }
 
 			.row { display: grid; grid-template-columns: 1.4fr 1.2fr auto; gap: 10px; align-items: center; }
 			@media (max-width: 640px) { .row { grid-template-columns: 1fr; } }
@@ -122,31 +122,31 @@
 				color: var(--text);
 				outline: none;
 			}
-			.input::placeholder { color: rgba(234,242,237,0.6); }
+			.input:: placeholder { color: rgba(234,242,237,0.6); }
 			.input:focus { border-color: var(--accent-1); box-shadow: 0 0 0 3px rgba(121,192,142,0.25); }
 
 			/* View mode pills */
-			.pill {
+			. pill {
 				display: inline-block;
 				width: 100%;
 				padding: 10px 12px;
-				border-radius: 12px;
-				background: rgba(255,255,255,0.06);
+				border-radius:  12px;
+				background:  rgba(255,255,255,0.06);
 				border: 1px solid rgba(255,255,255,0.18);
 				color: var(--text);
 				text-decoration: none;
 				word-break: break-word;
 			}
-			.pill.link:hover { border-color: var(--accent-1); }
+			.pill. link: hover { border-color: var(--accent-1); }
 
-			.actions { display: flex; flex-direction: column; gap: 8px; align-items: stretch; }
+			.actions { display: flex; flex-direction: column; gap:  8px; align-items:  stretch; }
 			.btn {
 				padding: 8px 10px;
-				border-radius: 10px; border: 1px solid rgba(255,255,255,0.18);
+				border-radius:  10px; border: 1px solid rgba(255,255,255,0.18);
 				background: rgba(255,255,255,0.08); color: var(--text);
 				cursor: pointer;
 			}
-			.btn.primary { background: linear-gradient(180deg, var(--accent-1), var(--accent-2)); color: #07341f; border: none; }
+			.btn.primary { background: linear-gradient(180deg, var(--accent-1), var(--accent-2)); color: #07341f; border:  none; }
 			.btn:hover { filter: brightness(1.05); }
 
 			.footer { color: var(--muted); text-align: center; margin-top: 26px; font-size: 12px; }
@@ -164,7 +164,7 @@
 
 		<main>
 			<div class="intro">
-				<h1>Danh sách liên kết thiên nhiên — thêm, mở nhanh.</h1>
+				<h1>Danh sách liên kết thiên nhiên — thêm, mở nhanh. </h1>
 				<button class="add-btn" id="addCard" type="button" aria-label="Thêm ô">
 					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
 						<path d="M12 5v14M5 12h14" stroke="#063824" stroke-width="2" stroke-linecap="round"/>
@@ -178,35 +178,21 @@
 			<div class="footer">Made with 🌿 — eTCTHA</div>
 		</main>
 
-		<!-- Optional: enable shared persistence by providing Supabase config below.
-		Add your project URL and public anon key, then uncomment.
-		<script>
-			// window.ETCTHA_CONFIG = { url: 'https://YOUR-project.supabase.co', key: 'YOUR_PUBLIC_ANON_KEY' };
-		</script>
-		-->
-
-		<!-- Optional: Google Sheets backend (Apps Script Web App). Provide your deployed Web App URL.
-		<script>
-			// window.ETCTHA_GS_URL = 'https://script.google.com/macros/s/DEPLOYMENT_ID/exec';
-		</script>
-		-->
-		<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 		<script>
 			const grid = document.getElementById('grid');
-			const addCardBtn = document.getElementById('addCard');
+			const addCardBtn = document. getElementById('addCard');
 			const STORAGE_KEY = 'etctha_items_v1';
-			const CONFIG = window.ETCTHA_CONFIG || null;
-			const GS_URL = window.ETCTHA_GS_URL || null;
-			let supa = null;
-			if (CONFIG && window.supabase) {
-				try { supa = window.supabase.createClient(CONFIG.url, CONFIG.key); } catch {}
-			}
-			const remoteEnabled = () => !!(GS_URL || supa);
+			
+			// URL Google Apps Script mới của bạn
+			const GS_URL = 'https://script.google.com/macros/s/AKfycbxM0hO5xHlWPD4EOwWnAu-Sz19DQQ5EOcjSxMA0dxuJGJIeTT4jiPfZXSBLHh8adXZ-/exec';
+			
+			const remoteEnabled = () => !!GS_URL;
 
 			function saveAll() {
-				const items = [...grid.querySelectorAll('.card')].map(card => ({
-					name: card.dataset.name || '',
-					link: card.dataset.link || ''
+				const items = [... grid.querySelectorAll('.card')].map(card => ({
+					name: card. dataset.name || '',
+					link: card.dataset. link || '',
+					id: card.dataset. id || ''
 				})).filter(it => it.name || it.link);
 				try { localStorage.setItem(STORAGE_KEY, JSON.stringify(items)); } catch {}
 			}
@@ -220,45 +206,63 @@
 				} catch { return []; }
 			}
 
-			// Remote persistence helpers (Sheets or Supabase)
+			// Remote persistence helpers (Google Sheets)
 			async function remoteLoad() {
 				if (!remoteEnabled()) return [];
-				if (GS_URL) {
-					try {
-						const res = await fetch(GS_URL + '?action=list', { cache: 'no-store' });
-						const data = await res.json();
-						return Array.isArray(data.items) ? data.items : [];
-					} catch { return []; }
-				}
 				try {
-					const { data, error } = await supa
-						.from('links')
-						.select('id,name,url,created_at')
-						.order('created_at', { ascending: false });
-					if (error) return [];
-					return data || [];
-				} catch { return []; }
+					const res = await fetch(GS_URL + '?action=list', { 
+						method: 'GET',
+						cache: 'no-store' 
+					});
+					const data = await res.json();
+					console.log('✅ Loaded from Google Sheets:', data);
+					return Array.isArray(data. items) ? data.items : [];
+				} catch (err) { 
+					console.error('❌ Error loading from Google Sheets:', err);
+					return []; 
+				}
 			}
 
 			async function remoteUpsert(item) {
 				if (!remoteEnabled()) return;
-				if (GS_URL) {
-					try { await fetch(GS_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'upsert', ...item }) }); } catch {}
-					return;
+				try { 
+					const payload = { 
+						action: 'upsert', 
+						id: item.id,
+						name: item.name,
+						url: item.url 
+					};
+					console.log('📤 Upserting to Google Sheets:', payload);
+					const res = await fetch(GS_URL, { 
+						method: 'POST', 
+						headers: { 'Content-Type': 'application/json' }, 
+						body:  JSON.stringify(payload),
+						mode: 'no-cors'
+					});
+					console.log('✅ Upsert sent');
+				} catch (err) {
+					console.error('❌ Error upserting to Google Sheets:', err);
 				}
-				try { await supa.from('links').upsert(item); } catch {}
 			}
 
 			async function remoteDelete(id) {
 				if (!remoteEnabled()) return;
-				if (GS_URL) {
-					try { await fetch(GS_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'delete', id }) }); } catch {}
-					return;
+				try { 
+					const payload = { action: 'delete', id };
+					console.log('🗑️ Deleting from Google Sheets:', payload);
+					await fetch(GS_URL, { 
+						method: 'POST', 
+						headers: { 'Content-Type': 'application/json' }, 
+						body: JSON.stringify(payload),
+						mode: 'no-cors'
+					});
+					console.log('✅ Delete sent');
+				} catch (err) {
+					console.error('❌ Error deleting from Google Sheets:', err);
 				}
-				try { await supa.from('links').delete().eq('id', id); } catch {}
 			}
 
-			function normalizeUrl(raw) {
+			function normalizeUrl (raw) {
 				if (!raw) return '';
 				let url = raw.trim();
 				if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
@@ -274,7 +278,7 @@
 				const card = document.createElement('div');
 				card.className = 'card';
 				const state = { name, link };
-					const generatedId = (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : (Date.now() + '_' + Math.random().toString(36).slice(2));
+				const generatedId = (typeof crypto !== 'undefined' && crypto. randomUUID) ? crypto.randomUUID() : (Date.now() + '_' + Math.random().toString(36).slice(2));
 				const itemId = id || generatedId;
 				card.dataset.id = itemId;
 				card.dataset.name = state.name;
@@ -300,7 +304,11 @@
 					`;
 
 					card.querySelector('[data-action="edit"]').addEventListener('click', renderEdit);
-					card.querySelector('[data-action="remove"]').addEventListener('click', async () => { card.remove(); saveAll(); await remoteDelete(itemId); });
+					card.querySelector('[data-action="remove"]').addEventListener('click', async () => { 
+						card.remove(); 
+						saveAll(); 
+						await remoteDelete(itemId); 
+					});
 				}
 
 				function renderEdit() {
@@ -324,7 +332,7 @@
 					const nameInput = card.querySelector('input[name="name"]');
 					const linkInput = card.querySelector('input[name="link"]');
 					card.querySelector('[data-action="save"]').addEventListener('click', async () => {
-						state.name = nameInput.value.trim();
+						state.name = nameInput.value. trim();
 						state.link = linkInput.value.trim();
 						card.dataset.name = state.name;
 						card.dataset.link = state.link;
@@ -332,7 +340,11 @@
 						await remoteUpsert({ id: itemId, name: state.name, url: state.link });
 						renderView();
 					});
-					card.querySelector('[data-action="remove"]').addEventListener('click', async () => { card.remove(); saveAll(); await remoteDelete(itemId); });
+					card.querySelector('[data-action="remove"]').addEventListener('click', async () => { 
+						card.remove(); 
+						saveAll(); 
+						await remoteDelete(itemId); 
+					});
 					nameInput.focus();
 				}
 
@@ -343,21 +355,21 @@
 
 			addCardBtn.addEventListener('click', () => createCard('', '', 'edit'));
 
-			// Load items: prefer remote if configured; else localStorage; else samples
+			// Load items:  prefer remote if configured; else localStorage; else samples
 			(async () => {
 				if (remoteEnabled()) {
 					const remote = await remoteLoad();
 					if (remote.length) {
-						remote.forEach(it => createCard(it.name || '', it.url || '', 'view', it.id));
+						remote.forEach(it => createCard(it.name || '', it.url || it.link || '', 'view', it.id));
 						return;
 					}
 				}
 				const existing = loadAll();
 				if (existing.length) {
-					existing.forEach(it => createCard(it.name || '', it.link || '', 'view'));
+					existing.forEach(it => createCard(it.name || '', it.link || '', 'view', it. id));
 				} else {
 					createCard('Khu bảo tồn Trà Sư', 'trasu.vn', 'view');
-					createCard('Vườn Quốc gia U Minh', 'nonglam.gov.vn/u-minh', 'view');
+					createCard('Vườn Quốc gia U Minh', 'nonglam.gov. vn/u-minh', 'view');
 				}
 			})();
 		</script>
