@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="vi">
 	<head>
 		<meta charset="utf-8" />
@@ -157,25 +157,25 @@
 			<nav class="nav">
 				<div class="brand">
 					<span class="brand-icon" aria-hidden="true"></span>
-					eTCTHA HÀ TĨNH
+					eTCTHA HÃ€ TÄ¨NH
 				</div>
 			</nav>
 		</header>
 
 		<main>
 			<div class="intro">
-				<h1>Danh sách liên kết thiên nhiên — thêm, mở nhanh.</h1>
-				<button class="add-btn" id="addCard" type="button" aria-label="Thêm ô">
+				<h1>Danh sÃ¡ch liÃªn káº¿t thiÃªn nhiÃªn â€” thÃªm, má»Ÿ nhanh.</h1>
+				<button class="add-btn" id="addCard" type="button" aria-label="ThÃªm Ã´">
 					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
 						<path d="M12 5v14M5 12h14" stroke="#063824" stroke-width="2" stroke-linecap="round"/>
 					</svg>
-					Thêm ô
+					ThÃªm Ã´
 				</button>
 			</div>
 
 			<section class="grid" id="grid"></section>
 
-			<div class="footer">Made with 🌿 — eTCTHA</div>
+			<div class="footer">Made with ðŸŒ¿ â€” eTCTHA</div>
 		</main>
 
 		<!-- Optional: enable shared persistence by providing Supabase config below.
@@ -184,19 +184,14 @@
 			// window.ETCTHA_CONFIG = { url: 'https://YOUR-project.supabase.co', key: 'YOUR_PUBLIC_ANON_KEY' };
 		</script>
 		-->
-
-		<!-- Optional: Google Sheets backend (Apps Script Web App). Provide your deployed Web App URL.
-		<script>
-			// window.ETCTHA_GS_URL = 'https://script.google.com/macros/s/DEPLOYMENT_ID/exec';
-		</script>
-		-->
 		<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 		<script>
 			const grid = document.getElementById('grid');
 			const addCardBtn = document.getElementById('addCard');
 			const STORAGE_KEY = 'etctha_items_v1';
 			const CONFIG = window.ETCTHA_CONFIG || null;
-			const GS_URL = window.ETCTHA_GS_URL || null;
+\t\t\tconst GS_URL = 'https://script.google.com/macros/s/AKfycbwoSTE8T1NwfcWtdwmERvuRRydzv70Girgdv7HbX67-cc49F0TzbDgvVhKUtuklIlgk/exec';
+\t\t\tconst GS_URL = 'https://script.google.com/macros/s/AKfycbwoSTE8T1NwfcWtdwmERvuRRydzv70Girgdv7HbX67-cc49F0TzbDgvVhKUtuklIlgk/exec';
 			let supa = null;
 			if (CONFIG && window.supabase) {
 				try { supa = window.supabase.createClient(CONFIG.url, CONFIG.key); } catch {}
@@ -220,45 +215,45 @@
 				} catch { return []; }
 			}
 
-			// Remote persistence helpers (Sheets or Supabase)
-			async function remoteLoad() {
-				if (!remoteEnabled()) return [];
-				if (GS_URL) {
-					try {
-						const res = await fetch(GS_URL + '?action=list', { cache: 'no-store' });
-						const data = await res.json();
-						return Array.isArray(data.items) ? data.items : [];
-					} catch { return []; }
-				}
-				try {
-					const { data, error } = await supa
-						.from('links')
-						.select('id,name,url,created_at')
-						.order('created_at', { ascending: false });
-					if (error) return [];
-					return data || [];
-				} catch { return []; }
-			}
+			// Remote persistence helpers (Google Sheets or Supabase)
+async function remoteLoad() {
+if (!remoteEnabled()) return [];
+if (GS_URL) {
+try {
+const res = await fetch(GS_URL + '?action=list', { cache: 'no-store' });
+const data = await res.json();
+return Array.isArray(data.items) ? data.items : [];
+} catch { return []; }
+}
+try {
+const { data, error } = await supa
+.from('links')
+.select('id,name,url,created_at')
+.order('created_at', { ascending: false });
+if (error) return [];
+return data || [];
+} catch { return []; }
+}
 
-			async function remoteUpsert(item) {
-				if (!remoteEnabled()) return;
-				if (GS_URL) {
-					try { await fetch(GS_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'upsert', ...item }) }); } catch {}
-					return;
-				}
-				try { await supa.from('links').upsert(item); } catch {}
-			}
+async function remoteUpsert(item) {
+if (!remoteEnabled()) return;
+if (GS_URL) {
+try { await fetch(GS_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'upsert', ...item }) }); } catch {}
+return;
+}
+try { await supa.from('links').upsert(item); } catch {}
+}
 
-			async function remoteDelete(id) {
-				if (!remoteEnabled()) return;
-				if (GS_URL) {
-					try { await fetch(GS_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'delete', id }) }); } catch {}
-					return;
-				}
-				try { await supa.from('links').delete().eq('id', id); } catch {}
-			}
+async function remoteDelete(id) {
+if (!remoteEnabled()) return;
+if (GS_URL) {
+try { await fetch(GS_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'delete', id }) }); } catch {}
+return;
+}
+try { await supa.from('links').delete().eq('id', id); } catch {}
+}
 
-			function normalizeUrl(raw) {
+function normalizeUrl (raw) {
 				if (!raw) return '';
 				let url = raw.trim();
 				if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
@@ -266,7 +261,7 @@
 			}
 
 			function displayText(raw) {
-				if (!raw) return '—';
+				if (!raw) return 'â€”';
 				return raw.trim().replace(/^https?:\/\//i, '');
 			}
 
@@ -274,7 +269,7 @@
 				const card = document.createElement('div');
 				card.className = 'card';
 				const state = { name, link };
-					const generatedId = (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : (Date.now() + '_' + Math.random().toString(36).slice(2));
+				const generatedId = (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : (Date.now() + '_' + Math.random().toString(36).slice(2));
 				const itemId = id || generatedId;
 				card.dataset.id = itemId;
 				card.dataset.name = state.name;
@@ -285,16 +280,16 @@
 					card.innerHTML = `
 						<div class="row">
 							<div>
-								<label>Tên</label>
-								<span class="pill">${state.name || '—'}</span>
+								<label>TÃªn</label>
+								<span class="pill">${state.name || 'â€”'}</span>
 							</div>
 							<div>
-								<label>Đường link</label>
+								<label>ÄÆ°á»ng link</label>
 								<a class="pill link" href="${href}" target="_blank" rel="noopener">${displayText(state.link)}</a>
 							</div>
 							<div class="actions">
-								<button class="btn" data-action="edit">Sửa</button>
-								<button class="btn" data-action="remove">Xóa</button>
+								<button class="btn" data-action="edit">Sá»­a</button>
+								<button class="btn" data-action="remove">XÃ³a</button>
 							</div>
 						</div>
 					`;
@@ -307,16 +302,16 @@
 					card.innerHTML = `
 						<div class="row">
 							<div>
-								<label for="name">Tên</label>
-								<input class="input" name="name" placeholder="Ví dụ: Rừng Tràm" value="${state.name}" />
+								<label for="name">TÃªn</label>
+								<input class="input" name="name" placeholder="VÃ­ dá»¥: Rá»«ng TrÃ m" value="${state.name}" />
 							</div>
 							<div>
-								<label for="link">Đường link</label>
-								<input class="input" name="link" placeholder="Ví dụ: cantho.vn/tra-su" value="${state.link}" />
+								<label for="link">ÄÆ°á»ng link</label>
+								<input class="input" name="link" placeholder="VÃ­ dá»¥: cantho.vn/tra-su" value="${state.link}" />
 							</div>
 							<div class="actions">
-								<button class="btn primary" data-action="save">Lưu</button>
-								<button class="btn" data-action="remove">Xóa</button>
+								<button class="btn primary" data-action="save">LÆ°u</button>
+								<button class="btn" data-action="remove">XÃ³a</button>
 							</div>
 						</div>
 					`;
@@ -356,10 +351,14 @@
 				if (existing.length) {
 					existing.forEach(it => createCard(it.name || '', it.link || '', 'view'));
 				} else {
-					createCard('Khu bảo tồn Trà Sư', 'trasu.vn', 'view');
-					createCard('Vườn Quốc gia U Minh', 'nonglam.gov.vn/u-minh', 'view');
+					createCard('Khu báº£o tá»“n TrÃ  SÆ°', 'trasu.vn', 'view');
+					createCard('VÆ°á»n Quá»‘c gia U Minh', 'nonglam.gov.vn/u-minh', 'view');
 				}
 			})();
 		</script>
 	</body>
 </html>
+
+
+
+
