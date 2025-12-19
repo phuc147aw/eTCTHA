@@ -184,17 +184,24 @@
 			// window.ETCTHA_CONFIG = { url: 'https://YOUR-project.supabase.co', key: 'YOUR_PUBLIC_ANON_KEY' };
 		</script>
 		-->
+
+		<!-- Optional: Google Sheets backend (Apps Script Web App). Provide your deployed Web App URL.
+		<script>
+			// window.ETCTHA_GS_URL = 'https://script.google.com/macros/s/DEPLOYMENT_ID/exec';
+		</script>
+		-->
 		<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 		<script>
 			const grid = document.getElementById('grid');
 			const addCardBtn = document.getElementById('addCard');
 			const STORAGE_KEY = 'etctha_items_v1';
 			const CONFIG = window.ETCTHA_CONFIG || null;
+			const GS_URL = window.ETCTHA_GS_URL || null;
 			let supa = null;
 			if (CONFIG && window.supabase) {
 				try { supa = window.supabase.createClient(CONFIG.url, CONFIG.key); } catch {}
 			}
-			const remoteEnabled = () => !!supa;
+			const remoteEnabled = () => !!(GS_URL || supa);
 
 			function saveAll() {
 				const items = [...grid.querySelectorAll('.card')].map(card => ({
@@ -213,9 +220,16 @@
 				} catch { return []; }
 			}
 
-			// Remote persistence helpers (Supabase)
+			// Remote persistence helpers (Sheets or Supabase)
 			async function remoteLoad() {
 				if (!remoteEnabled()) return [];
+				if (GS_URL) {
+					try {
+						const res = await fetch(GS_URL + '?action=list', { cache: 'no-store' });
+						const data = await res.json();
+						return Array.isArray(data.items) ? data.items : [];
+					} catch { return []; }
+				}
 				try {
 					const { data, error } = await supa
 						.from('links')
@@ -228,11 +242,19 @@
 
 			async function remoteUpsert(item) {
 				if (!remoteEnabled()) return;
+				if (GS_URL) {
+					try { await fetch(GS_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'upsert', ...item }) }); } catch {}
+					return;
+				}
 				try { await supa.from('links').upsert(item); } catch {}
 			}
 
 			async function remoteDelete(id) {
 				if (!remoteEnabled()) return;
+				if (GS_URL) {
+					try { await fetch(GS_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'delete', id }) }); } catch {}
+					return;
+				}
 				try { await supa.from('links').delete().eq('id', id); } catch {}
 			}
 
@@ -252,7 +274,7 @@
 				const card = document.createElement('div');
 				card.className = 'card';
 				const state = { name, link };
-				const generatedId = (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : (Date.now() + '_' + Math.random().toString(36).slice(2));
+					const generatedId = (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : (Date.now() + '_' + Math.random().toString(36).slice(2));
 				const itemId = id || generatedId;
 				card.dataset.id = itemId;
 				card.dataset.name = state.name;
