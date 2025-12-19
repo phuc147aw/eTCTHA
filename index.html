@@ -178,10 +178,23 @@
 			<div class="footer">Made with 🌿 — eTCTHA</div>
 		</main>
 
+		<!-- Optional: enable shared persistence by providing Supabase config below.
+		Add your project URL and public anon key, then uncomment.
+		<script>
+			// window.ETCTHA_CONFIG = { url: 'https://YOUR-project.supabase.co', key: 'YOUR_PUBLIC_ANON_KEY' };
+		</script>
+		-->
+		<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 		<script>
 			const grid = document.getElementById('grid');
 			const addCardBtn = document.getElementById('addCard');
 			const STORAGE_KEY = 'etctha_items_v1';
+			const CONFIG = window.ETCTHA_CONFIG || null;
+			let supa = null;
+			if (CONFIG && window.supabase) {
+				try { supa = window.supabase.createClient(CONFIG.url, CONFIG.key); } catch {}
+			}
+			const remoteEnabled = () => !!supa;
 
 			function saveAll() {
 				const items = [...grid.querySelectorAll('.card')].map(card => ({
@@ -200,6 +213,29 @@
 				} catch { return []; }
 			}
 
+			// Remote persistence helpers (Supabase)
+			async function remoteLoad() {
+				if (!remoteEnabled()) return [];
+				try {
+					const { data, error } = await supa
+						.from('links')
+						.select('id,name,url,created_at')
+						.order('created_at', { ascending: false });
+					if (error) return [];
+					return data || [];
+				} catch { return []; }
+			}
+
+			async function remoteUpsert(item) {
+				if (!remoteEnabled()) return;
+				try { await supa.from('links').upsert(item); } catch {}
+			}
+
+			async function remoteDelete(id) {
+				if (!remoteEnabled()) return;
+				try { await supa.from('links').delete().eq('id', id); } catch {}
+			}
+
 			function normalizeUrl(raw) {
 				if (!raw) return '';
 				let url = raw.trim();
@@ -212,10 +248,13 @@
 				return raw.trim().replace(/^https?:\/\//i, '');
 			}
 
-			function createCard(name = '', link = '', mode = 'view') {
+			function createCard(name = '', link = '', mode = 'view', id = null) {
 				const card = document.createElement('div');
 				card.className = 'card';
 				const state = { name, link };
+				const generatedId = (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : (Date.now() + '_' + Math.random().toString(36).slice(2));
+				const itemId = id || generatedId;
+				card.dataset.id = itemId;
 				card.dataset.name = state.name;
 				card.dataset.link = state.link;
 
@@ -239,7 +278,7 @@
 					`;
 
 					card.querySelector('[data-action="edit"]').addEventListener('click', renderEdit);
-					card.querySelector('[data-action="remove"]').addEventListener('click', () => { card.remove(); saveAll(); });
+					card.querySelector('[data-action="remove"]').addEventListener('click', async () => { card.remove(); saveAll(); await remoteDelete(itemId); });
 				}
 
 				function renderEdit() {
@@ -262,15 +301,16 @@
 
 					const nameInput = card.querySelector('input[name="name"]');
 					const linkInput = card.querySelector('input[name="link"]');
-					card.querySelector('[data-action="save"]').addEventListener('click', () => {
+					card.querySelector('[data-action="save"]').addEventListener('click', async () => {
 						state.name = nameInput.value.trim();
 						state.link = linkInput.value.trim();
 						card.dataset.name = state.name;
 						card.dataset.link = state.link;
-						renderView();
 						saveAll();
+						await remoteUpsert({ id: itemId, name: state.name, url: state.link });
+						renderView();
 					});
-					card.querySelector('[data-action="remove"]').addEventListener('click', () => { card.remove(); saveAll(); });
+					card.querySelector('[data-action="remove"]').addEventListener('click', async () => { card.remove(); saveAll(); await remoteDelete(itemId); });
 					nameInput.focus();
 				}
 
@@ -281,14 +321,23 @@
 
 			addCardBtn.addEventListener('click', () => createCard('', '', 'edit'));
 
-			// Load from localStorage (or show samples if empty)
-			const existing = loadAll();
-			if (existing.length) {
-				existing.forEach(it => createCard(it.name || '', it.link || '', 'view'));
-			} else {
-				createCard('Khu bảo tồn Trà Sư', 'trasu.vn', 'view');
-				createCard('Vườn Quốc gia U Minh', 'nonglam.gov.vn/u-minh', 'view');
-			}
+			// Load items: prefer remote if configured; else localStorage; else samples
+			(async () => {
+				if (remoteEnabled()) {
+					const remote = await remoteLoad();
+					if (remote.length) {
+						remote.forEach(it => createCard(it.name || '', it.url || '', 'view', it.id));
+						return;
+					}
+				}
+				const existing = loadAll();
+				if (existing.length) {
+					existing.forEach(it => createCard(it.name || '', it.link || '', 'view'));
+				} else {
+					createCard('Khu bảo tồn Trà Sư', 'trasu.vn', 'view');
+					createCard('Vườn Quốc gia U Minh', 'nonglam.gov.vn/u-minh', 'view');
+				}
+			})();
 		</script>
 	</body>
 </html>
